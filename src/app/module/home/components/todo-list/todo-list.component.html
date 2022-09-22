@@ -1,13 +1,13 @@
-<section>
-    <ul>
-        <li>
-            <input type="checkbox">
-            <input type="text">
-            <button>
+<section [ngClass]="{'loading': !list.length}">
+    <ul *ngIf="list.length">
+        <li *ngFor="let item of list; let i = index">
+            <input type="checkbox" [(ngModel)]="item.checked">
+            <input type="text" (keyup)="validationInput(item.task, i)" [(ngModel)]="item.task" [ngClass]="{'checked': item.checked}">
+            <button (click)="excluirTaks(i)">
                 <img src="assets/icons/icon-trash.svg">
             </button>
         </li>
     </ul>
 </section>
-<app-todo-input-add-itens></app-todo-input-add-itens>
-<app-todo-button-delete-all></app-todo-button-delete-all>
+<app-todo-input-add-itens (emitItemTaksList)="setEmiterTaksList($event)"></app-todo-input-add-itens>
+<app-todo-button-delete-all *ngIf="list.length" (click)="excluirTodos()"></app-todo-button-delete-all>
